@@ -21,7 +21,7 @@ while True:
                                               minSize=(60, 60),
                                               flags=cv.CASCADE_SCALE_IMAGE)
     for (x,y,w,h) in faces:
-        cv.rectangle(frame, (x,y), (x+w,y+h), (233, 220, 201), 2)
+        cv.rectangle(frame, (x,y), (x+w,y+h), (233, 218, 201), 2)
                         #top-left  bottom-right
         faceROI = frame[y:y+h, x:x+w]
         eyes  = eyeCascade.detectMultiScale(faceROI)
@@ -29,7 +29,7 @@ while True:
             eye_center = (x + x2 + w2 // 2, y + y2 + h2 // 2)  
             # the '//' operator represents the result will be rounded of to nearest integer
             radius = int(round((w2+h2)*0.25))
-            cv.circle(frame, eye_center, radius, (255, 222, 173),4)
+            cv.circle(frame, eye_center, radius, (255, 221, 173),4)
     cv.imshow('Video', frame)
     if cv.waitKey(1) & 0xFF == ord('q'): #escaping the if loop if 'q' is pressed
         break
