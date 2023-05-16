@@ -36,3 +36,4 @@ cv.destroyAllWindows()
 
 np.save("withoutmask.npy", data)
 wom = np.load("withoutmask.npy") 
+wom = wom.reshape(2000,50*50*3)

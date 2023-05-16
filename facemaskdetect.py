@@ -1,11 +1,7 @@
 import os
 import cv2 as cv
-import numpy as np
-from without_mask import wom
-from with_mask import wm
-
-wm = wm.reshape(2000,50*50*3)
-wom = wom.reshape(2000,50*50*3)
+from sklearn.svm import SVC
+from combined_data import output
 
 cascPathFace = os.path.dirname(cv.__file__) + "/data/haarcascade_frontalface_alt2.xml"
 cascPathEyes = os.path.dirname(cv.__file__) + "/data/haarcascade_eye_tree_eyeglasses.xml"
@@ -16,16 +12,16 @@ eyeCascade =  cv.CascadeClassifier(cascPathEyes)
 
 #Face detection
 ##for the webcam
-# video_capture = cv.VideoCapture(0)
+video_capture = cv.VideoCapture(0)
 
 ## for the image 
-frame = cv.imread("WhatsApp Image 2023-05-11 at 13.31.53.jpeg")
+# frame = cv.imread("WhatsApp Image 2023-05-11 at 13.31.53.jpeg")
 
 ## for already captured video
 # video_capture = cv.VideoCapture("path_to_video")
 
 while True:
-    # ret, frame = video_capture.read() #only required in case of videos
+    ret, frame = video_capture.read() #only required in case of videos
 
     # converting to grayscale
     gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
@@ -37,7 +33,13 @@ while True:
     for (x,y,w,h) in faces:
         cv.rectangle(frame, (x,y), (x+w,y+h), (233, 218, 201), 2)
                         #top-left  bottom-right
-
+        face = frame[y:y+h, x:x+w]
+        face = cv.resize(face,(50,50))
+        face = face.reshape(1,-1)
+        pred = SVC.predict(face)[0]
+        n = output(int(pred))
+        cv.putText(frame,n,(x,y),fontFace=0,fontScale=1,color=(244,250,250),thickness=2)  
+        
         ###eye detection
         # faceROI = frame[y:y+h, x:x+w]
         # eyes  = eyeCascade.detectMultiScale(faceROI)
@@ -51,5 +53,5 @@ while True:
     if cv.waitKey(1) & 0xFF == ord('q'): #escaping the if loop if 'q' is pressed
         break
     
-# video_capture.release()
+video_capture.release()
 cv.destroyAllWindows()

@@ -1,7 +1,6 @@
 import os
 import cv2 as cv
 import numpy as np
-
 cascPathFace = os.path.dirname(cv.__file__) + "/data/haarcascade_frontalface_alt2.xml"
 cascPathEyes = os.path.dirname(cv.__file__) + "/data/haarcascade_eye_tree_eyeglasses.xml"
 
@@ -35,5 +34,5 @@ video_capture.release()
 cv.destroyAllWindows()
 
 np.save("withmask.npy", data_01)
-
 wm = np.load("withmask.npy") 
+wm = wm.reshape(2000,50*50*3)
