@@ -1,5 +1,11 @@
 import os
 import cv2 as cv
+import numpy as np
+from without_mask import wom
+from with_mask import wm
+
+wm = wm.reshape(2000,50*50*3)
+wom = wom.reshape(2000,50*50*3)
 
 cascPathFace = os.path.dirname(cv.__file__) + "/data/haarcascade_frontalface_alt2.xml"
 cascPathEyes = os.path.dirname(cv.__file__) + "/data/haarcascade_eye_tree_eyeglasses.xml"
@@ -7,13 +13,15 @@ cascPathEyes = os.path.dirname(cv.__file__) + "/data/haarcascade_eye_tree_eyegla
 faceCascade = cv.CascadeClassifier(cascPathFace)
 eyeCascade =  cv.CascadeClassifier(cascPathEyes)
 
-# for the webcam
+
+#Face detection
+##for the webcam
 # video_capture = cv.VideoCapture(0)
 
-# for the image 
+## for the image 
 frame = cv.imread("WhatsApp Image 2023-05-11 at 13.31.53.jpeg")
 
-# for already captured video
+## for already captured video
 # video_capture = cv.VideoCapture("path_to_video")
 
 while True:
@@ -30,7 +38,7 @@ while True:
         cv.rectangle(frame, (x,y), (x+w,y+h), (233, 218, 201), 2)
                         #top-left  bottom-right
 
-        #eye detection
+        ###eye detection
         # faceROI = frame[y:y+h, x:x+w]
         # eyes  = eyeCascade.detectMultiScale(faceROI)
         # for(x2,y2,w2,h2) in eyes:
@@ -38,7 +46,7 @@ while True:
         #     # the '//' operator represents the result will be rounded of to nearest integer
         #     radius = int(round((w2+h2)*0.25))
         #     cv.circle(frame, eye_center, radius, (255, 221, 173),4)
-        
+
     cv.imshow('result', frame)
     if cv.waitKey(1) & 0xFF == ord('q'): #escaping the if loop if 'q' is pressed
         break
