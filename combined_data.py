@@ -8,7 +8,7 @@ import numpy as np
 x = np.r_[wm,wom]
 
 labels = np.zeros(x.shape[0])
-labels[200:] = 1.0
+labels[2000:] = 1.0
 
 output = {0:"mask on",1:"mask off"}
 
